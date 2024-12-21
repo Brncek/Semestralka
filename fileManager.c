@@ -13,7 +13,6 @@ svet nacitajSvet(const char *nazovSuboru) {
 
     svet mapa;
     mapa.pocetPrekaziek = 0;
-    mapa.prekazky = NULL;
 
     char riadok[256];
     int riadokIndex = 0;
@@ -22,7 +21,6 @@ svet nacitajSvet(const char *nazovSuboru) {
     while (fgets(riadok, sizeof(riadok), subor)) {
         if (strncmp(riadok, "MAP:", 4) == 0) {
             sscanf(riadok, "MAP: %d %d", &mapa.rozmerySveta[0], &mapa.rozmerySveta[1]);
-            mapa.prekazky = malloc(mapa.rozmerySveta[0] * mapa.rozmerySveta[1] * sizeof(cords));
         } else if (strchr(riadok, 'o') || strchr(riadok, 'x')) {
             x = 0;
             for (int i = 0; riadok[i] != '\0'; i++) {
@@ -41,7 +39,6 @@ svet nacitajSvet(const char *nazovSuboru) {
 
     fclose(subor);
 
-    mapa.prekazky = realloc(mapa.prekazky, mapa.pocetPrekaziek * sizeof(cords));
     return mapa;
 }
 

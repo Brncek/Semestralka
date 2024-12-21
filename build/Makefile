@@ -177,6 +177,30 @@ fileManager.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/fileManager.c.s
 .PHONY : fileManager.c.s
 
+klientIPC.o: klientIPC.c.o
+.PHONY : klientIPC.o
+
+# target to build an object file
+klientIPC.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/klientIPC.c.o
+.PHONY : klientIPC.c.o
+
+klientIPC.i: klientIPC.c.i
+.PHONY : klientIPC.i
+
+# target to preprocess a source file
+klientIPC.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/klientIPC.c.i
+.PHONY : klientIPC.c.i
+
+klientIPC.s: klientIPC.c.s
+.PHONY : klientIPC.s
+
+# target to generate assembly for a file
+klientIPC.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/klientIPC.c.s
+.PHONY : klientIPC.c.s
+
 main.o: main.c.o
 .PHONY : main.o
 
@@ -240,6 +264,9 @@ help:
 	@echo "... fileManager.o"
 	@echo "... fileManager.i"
 	@echo "... fileManager.s"
+	@echo "... klientIPC.o"
+	@echo "... klientIPC.i"
+	@echo "... klientIPC.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -49,6 +49,20 @@ CMakeFiles/klient.dir/main.c.o: /home/brncek/Desktop/Semestralka/main.c \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /home/brncek/Desktop/Semestralka/dataStructures.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
+ /usr/include/pthread.h /usr/include/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/sched.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_sched_param.h \
+ /usr/include/x86_64-linux-gnu/bits/cpu-set.h /usr/include/time.h \
+ /usr/include/x86_64-linux-gnu/bits/time.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_tm.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h \
+ /usr/include/x86_64-linux-gnu/bits/types/locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/types/__locale_t.h \
+ /usr/include/x86_64-linux-gnu/bits/setjmp.h \
+ /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
+ /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
+ /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h \
  /home/brncek/Desktop/Semestralka/fileManager.h \
  /home/brncek/Desktop/Semestralka/debugTests.h \
- /home/brncek/Desktop/Semestralka/symulator.h
+ /home/brncek/Desktop/Semestralka/symulator.h \
+ /home/brncek/Desktop/Semestralka/klientIPC.h

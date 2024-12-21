@@ -5,6 +5,7 @@
 #include "fileManager.h"
 #include "debugTests.h"
 #include "symulator.h"
+#include "klientIPC.h"
 
 symInfo novaSymulaciaDialog() {
     int odpoved;
@@ -71,7 +72,6 @@ symInfo novaSymulaciaDialog() {
             exit(0);
         }
         svet.pocetPrekaziek = 0;
-        svet.prekazky = NULL;
         symInfo.svet = svet;
         break;
     case 2:
@@ -127,25 +127,21 @@ int mainMenu() {
 
 void novaSymulacia() {
     symInfo symInfo = novaSymulaciaDialog();
-    
-
-    //TODO: vymazat cords
+    char* popisovac = spustServer(symInfo);
+    pripojNaServer(popisovac);
 }
 
 void pripojenie() {
-    //TODO: pripojenie
+    char odpovedCesta[256];
+    printf("popisovac: ");
+    scanf("%255s", odpovedCesta);
+    pripojNaServer(odpovedCesta);
 }
 
 void znovuspustenie() {
     symInfo symInfo = znovuSymulaciaDialog();
-    sym sym;
-    sym.symInfo = symInfo;
-    symuluj(&sym);
-
-    vykresliMapu(&sym, SYM_MOD);
-
-    destroySym(&sym);
-    //TODO: vymazat cords
+    char* popisovac = spustServer(symInfo);
+    pripojNaServer(popisovac);
 }
 
 int main()
@@ -155,16 +151,16 @@ int main()
 
     switch (menuOdpoved)
     {
-    case 1: // nova symulacia
+    case 1: 
         novaSymulacia();
         break;
-    case 2: // pripojenie
+    case 2: 
         pripojenie();
         break;
-    case 3: // znovu spustenie
+    case 3: 
         znovuspustenie();
         break;
-    case 4: //koniec
+    case 4: 
         printf("koniec\n");
         break;
     default:

@@ -1,5 +1,6 @@
 #pragma once
 #include <stdbool.h>
+#include <pthread.h>
 
 typedef enum zobrazenie {
     SYM_MOD,
@@ -19,7 +20,7 @@ typedef struct cords{
 } cords;
 
 typedef struct svet {
-    cords * prekazky;
+    cords prekazky[20000];
     int pocetPrekaziek;
     int rozmerySveta[2];
 } svet;
@@ -37,25 +38,31 @@ typedef struct symInfo
 typedef struct rep
 {
     int poradie;
-    bool ** prejdenePolicka;
-    int ** poctyDlzok;
-    int ** poctyDos;
+    bool  prejdenePolicka[150][150];
+    int  poctyDlzok[150][150];
+    int  poctyDos[150][150];
     int krok;
     cords aktPozicia;
 } rep;
 
 
 typedef struct sym {
+    //synchronizacia
+    pthread_mutex_t  symMutex;
+    pthread_cond_t  posun;
+
     symInfo symInfo;
     rep aktualRep;
-    int ** poctyDlzokSum;
-    int ** poctyDosSum;
-    //TODO synchronizacia
+    int poctyDlzokSum[150][150];
+    int poctyDosSum[150][150];
 } sym;
 
 typedef struct server {
     sym sym;
+    
+    //TODO: synchronizacia
+    pthread_mutex_t serverMutex;
+    pthread_cond_t  koniec;
     zobrazenie zob;
     int pocetKlientov;
-    //TODO: synchronizacia
 }server;

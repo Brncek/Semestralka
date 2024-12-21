@@ -1,1 +1,1 @@
-/usr/bin/cc CMakeFiles/klient.dir/main.c.o CMakeFiles/klient.dir/fileManager.c.o CMakeFiles/klient.dir/debugTests.c.o CMakeFiles/klient.dir/symulator.c.o -o klient 
+/usr/bin/cc CMakeFiles/klient.dir/main.c.o CMakeFiles/klient.dir/fileManager.c.o CMakeFiles/klient.dir/debugTests.c.o CMakeFiles/klient.dir/symulator.c.o CMakeFiles/klient.dir/klientIPC.c.o -o klient 

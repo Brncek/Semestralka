@@ -15,10 +15,10 @@ int svetY(sym* sym) {
 }
 
 bool jePrekazka(sym * sym, cords cord) {
-    cords * prekazky = sym->symInfo.svet.prekazky;
+    
     for (int i = 0; i < sym->symInfo.svet.pocetPrekaziek; i++)
     {
-        if (prekazky[i].x == cord.x && prekazky[i].y == cord.y)
+        if (sym->symInfo.svet.prekazky[i].x == cord.x && sym->symInfo.svet.prekazky[i].y == cord.y)
         {
             return true;
         }
@@ -97,7 +97,6 @@ void posun(sym* sym) {
         }
 
         kolizia = jePrekazka(sym, posunCords);
-        cords * prekazky = sym->symInfo.svet.prekazky;
     }
 
     sym->aktualRep.aktPozicia.x = posunCords.x;
@@ -109,18 +108,17 @@ void posun(sym* sym) {
 //POZOR symulacia ostava alokovana
 void symuluj(sym* sym) {
     //ZAMKNI
-    sym->poctyDlzokSum = calloc(svetY(sym), sizeof(int*));
-    sym->poctyDosSum = calloc(svetY(sym), sizeof(int*));
-    sym->aktualRep.prejdenePolicka = calloc(svetY(sym), sizeof(bool*));
-    sym->aktualRep.poctyDlzok = calloc(svetY(sym), sizeof(int*));
-    sym->aktualRep.poctyDos = calloc(svetY(sym), sizeof(int*));
+    
     for (int y = 0; y < svetY(sym); y++)
     {
-        sym->poctyDlzokSum[y] = calloc(svetX(sym), sizeof(int));
-        sym->poctyDosSum[y] = calloc(svetX(sym), sizeof(int));
-        sym->aktualRep.prejdenePolicka[y] = calloc(svetX(sym), sizeof(bool)); 
-        sym->aktualRep.poctyDlzok[y] = calloc(svetX(sym), sizeof(int));
-        sym->aktualRep.poctyDos[y] = calloc(svetX(sym), sizeof(int));  
+        for (size_t x = 0; x < svetX(sym); x++)
+        {
+            sym->poctyDlzokSum[y][x] = 0; 
+            sym->poctyDosSum[y][x] = 0; 
+            sym->aktualRep.prejdenePolicka[y][x] = 0;
+            sym->aktualRep.poctyDlzok[y][x] = 0;
+            sym->aktualRep.poctyDos[y][x] = 0; 
+        }
     }
 
     //PRIPRAVA
@@ -184,7 +182,6 @@ void symuluj(sym* sym) {
                         sym->aktualRep.poctyDlzok[y][x] = 0;    
                         pokracuj = false;
                     }   
-                    vykresliMapu(sym, SYM_MOD);
                     //TODO: ODOMKNI
                     sleep(1); 
                 }
@@ -194,38 +191,16 @@ void symuluj(sym* sym) {
         //PRIDANIE VYSLEDKOV
         //TODO: ZAMKNI
         sym->aktualRep.poradie++;
-        int ** poctyDlzokSum = sym->poctyDlzokSum; 
-        int ** poctyDosSum = sym->poctyDosSum;
-        int ** poctyDlzok = sym->aktualRep.poctyDlzok;
-        int ** poctyDos = sym->aktualRep.poctyDos;
         for (int x = 0; x < svetX(sym); x++)
         {
             for (int y = 0; y < svetY(sym); y++)
             {
-                poctyDlzokSum[y][x] += poctyDlzok[y][x];
-                poctyDosSum[y][x] += poctyDos[y][x];
+                sym->poctyDlzokSum[y][x] += sym->aktualRep.poctyDlzok[y][x];
+                sym->poctyDosSum[y][x] += sym->aktualRep.poctyDos[y][x];
             }
         }
         //TODO: ODOMKNI
     }
-}
-
-void destroySym(sym * sym) {
-    for (int y = 0; y < svetY(sym); y++)
-    {
-        free(sym->aktualRep.prejdenePolicka[y]);
-        free(sym->poctyDlzokSum[y]);
-        free(sym->poctyDosSum[y]);   
-        free(sym->aktualRep.poctyDlzok[y]); 
-        free(sym->aktualRep.poctyDos[y]);  
-    }
-    free(sym->aktualRep.prejdenePolicka);
-    free(sym->poctyDlzokSum);
-    free(sym->poctyDosSum);    
-    free(sym->aktualRep.poctyDlzok);
-    free(sym->aktualRep.poctyDos);
-
-    free(sym->symInfo.svet.prekazky);
 }
 
 void vykresliMapu(sym * sym, zobrazenie zobrazenie) {
@@ -246,8 +221,6 @@ void vykresliMapu(sym * sym, zobrazenie zobrazenie) {
 
     if (zobrazenie == SYM_MOD)
     {
-
-        bool ** prejdene = sym->aktualRep.prejdenePolicka;
         for (int y = 0; y < svetY(sym); y++)
         {
             for (int x = 0; x < svetX(sym); x++)
@@ -267,7 +240,7 @@ void vykresliMapu(sym * sym, zobrazenie zobrazenie) {
                 {
                     printf("/\\");
                 } 
-                else if (prejdene[y][x])
+                else if (sym->aktualRep.prejdenePolicka[y][x])
                 {
                     printf("::");    
                 } 
