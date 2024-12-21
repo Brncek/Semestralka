@@ -1,10 +1,10 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
+#include <stdio.h>
 
 #include "symulator.h"
 
-#define cas_medzi_krokmi 0.5
 
 int svetX(sym* sym) {
     return sym->symInfo.svet.rozmerySveta[1];
@@ -14,6 +14,26 @@ int svetY(sym* sym) {
     return sym->symInfo.svet.rozmerySveta[0];
 }
 
+bool jePrekazka(sym * sym, cords cord) {
+    cords * prekazky = sym->symInfo.svet.prekazky;
+    for (int i = 0; i < sym->symInfo.svet.pocetPrekaziek; i++)
+    {
+        if (prekazky[i].x == cord.x && prekazky[i].y == cord.y)
+        {
+            return true;
+        }
+    }   
+    return false;
+}
+
+bool jeStred(sym * sym, cords cord) {
+    cords stred;
+    stred.x = svetX(sym) / 2;
+    stred.y = svetY(sym) / 2;
+
+    return stred.x == cord.x && stred.y == cord.y;
+}
+
 smer randSmer(sym * sym) {
     double nahodne = (double)rand() / (double)RAND_MAX;
     
@@ -21,18 +41,20 @@ smer randSmer(sym * sym) {
     {
         return HORE_SMER;
     } 
-    else if (nahodne <= sym->symInfo.smeri[1])
+    nahodne -= sym->symInfo.smeri[0];
+
+    if (nahodne  <= sym->symInfo.smeri[1])
     {
         return DOLE_SMER;
     } 
-    else if (nahodne <= sym->symInfo.smeri[2])
+    nahodne -= sym->symInfo.smeri[1];
+
+    if (nahodne <= sym->symInfo.smeri[2])
     {
         return VPAVO_SMER;
     } 
-    else 
-    {
-        return VPAVO_SMER;
-    }
+    
+    return VLAVO_SMER;
 }
 
 void posun(sym* sym) {
@@ -74,15 +96,8 @@ void posun(sym* sym) {
             continue;
         }
 
+        kolizia = jePrekazka(sym, posunCords);
         cords * prekazky = sym->symInfo.svet.prekazky;
-        for (int i = 0; i < sym->symInfo.svet.pocetPrekaziek; i++)
-        {
-            if (prekazky[i].x == posunCords.x && prekazky[i].y == posunCords.y)
-            {
-                kolizia = true;
-                break; 
-            }
-        }
     }
 
     sym->aktualRep.aktPozicia.x = posunCords.x;
@@ -91,29 +106,27 @@ void posun(sym* sym) {
     sym->aktualRep.krok++;
 }
 
-//POZOR SVET OSTAVA ALOKOVANY
+//POZOR symulacia ostava alokovana
 void symuluj(sym* sym) {
     //ZAMKNI
-    sym->poctyDlzokSum = callock(svetY(sym), sizeof(int*));
-    sym->poctyDosSum = callock(svetY(sym), sizeof(int*));
-    sym->aktualRep.prejdenePolicka = callock(svetY(sym), sizeof(bool*));
-    sym->aktualRep.poctyDlzok = callock(svetY(sym), sizeof(int*));
-    sym->aktualRep.poctyDos = callock(svetY(sym), sizeof(int*));
+    sym->poctyDlzokSum = calloc(svetY(sym), sizeof(int*));
+    sym->poctyDosSum = calloc(svetY(sym), sizeof(int*));
+    sym->aktualRep.prejdenePolicka = calloc(svetY(sym), sizeof(bool*));
+    sym->aktualRep.poctyDlzok = calloc(svetY(sym), sizeof(int*));
+    sym->aktualRep.poctyDos = calloc(svetY(sym), sizeof(int*));
     for (int y = 0; y < svetY(sym); y++)
     {
-        sym->poctyDlzokSum[y] = callock(svetX(sym), sizeof(int));
-        sym->poctyDosSum[y] = callock(svetX(sym), sizeof(int));
-        sym->aktualRep.prejdenePolicka[y] = callock(svetX(sym), sizeof(bool)); 
-        sym->aktualRep.poctyDlzok[y] = callock(svetX(sym), sizeof(int));
-        sym->aktualRep.poctyDos[y] = callock(svetX(sym), sizeof(int));  
+        sym->poctyDlzokSum[y] = calloc(svetX(sym), sizeof(int));
+        sym->poctyDosSum[y] = calloc(svetX(sym), sizeof(int));
+        sym->aktualRep.prejdenePolicka[y] = calloc(svetX(sym), sizeof(bool)); 
+        sym->aktualRep.poctyDlzok[y] = calloc(svetX(sym), sizeof(int));
+        sym->aktualRep.poctyDos[y] = calloc(svetX(sym), sizeof(int));  
     }
 
     //PRIPRAVA
-    srand(Time(NULL));
+    srand(time(NULL));
     sym->aktualRep.poradie = 1;
-    cords stred;
-    stred.x = svetX(sym) / 2 + 1;
-    stred.y = svetY(sym) / 2 + 2;
+    
     //TODO: ODOMKNI
 
     while (sym->aktualRep.poradie <= sym->symInfo.replikacie)
@@ -133,19 +146,17 @@ void symuluj(sym* sym) {
                     }
                 }
 
-                //PRESKOCENIE STREDU
-                if (stred.x == x && stred.y == y)
+                cords cord;
+                cord.x = x;
+                cord.y = y;
+
+                if (jeStred(sym, cord))
                 {
                     continue;
                 }
-
-                //PRESKOCENIE SYMULOVANIA Z PREKAZKY
-                cords * prekazky = sym->symInfo.svet.prekazky;
-                for (int i = 0; i < sym->symInfo.svet.pocetPrekaziek; i++)
+                if (jePrekazka(sym, cord))
                 {
-                    if (prekazky[i].x == x && prekazky[i].y == y) {
-                        continue;
-                    }
+                    continue;
                 }
 
                 sym->aktualRep.aktPozicia.x = x;
@@ -161,8 +172,7 @@ void symuluj(sym* sym) {
                     //TODO: ZAMKNI
                     posun(sym);
 
-                    if (sym->aktualRep.aktPozicia.x == stred.x &&
-                        sym->aktualRep.aktPozicia.y == stred.y) 
+                    if (jeStred(sym,sym->aktualRep.aktPozicia)) 
                     {
                         sym->aktualRep.poctyDos[y][x] = 1;
                         sym->aktualRep.poctyDlzok[y][x] =  sym->aktualRep.krok;   
@@ -173,10 +183,10 @@ void symuluj(sym* sym) {
                         sym->aktualRep.poctyDos[y][x] = 0;
                         sym->aktualRep.poctyDlzok[y][x] = 0;    
                         pokracuj = false;
-                    }
-                    
+                    }   
+                    vykresliMapu(sym, SYM_MOD);
                     //TODO: ODOMKNI
-                    sleep(cas_medzi_krokmi); 
+                    sleep(1); 
                 }
             }
         }
@@ -198,8 +208,9 @@ void symuluj(sym* sym) {
         }
         //TODO: ODOMKNI
     }
+}
 
-   //DEALOCK
+void destroySym(sym * sym) {
     for (int y = 0; y < svetY(sym); y++)
     {
         free(sym->aktualRep.prejdenePolicka[y]);
@@ -213,4 +224,64 @@ void symuluj(sym* sym) {
     free(sym->poctyDosSum);    
     free(sym->aktualRep.poctyDlzok);
     free(sym->aktualRep.poctyDos);
+
+    free(sym->symInfo.svet.prekazky);
+}
+
+void vykresliMapu(sym * sym, zobrazenie zobrazenie) {
+    printf("\n");
+    if (zobrazenie == SYM_MOD)
+    {
+        printf("MOD: SYM\n");
+    } else {
+        printf("MOD: SUM\n");
+    }
+    
+    printf("|-------------------------------------------|\n");
+    printf("SMERY: \nHORE: %lf \nDOLE: %lf \nVPRAVO: %lf \nVLAVO: %lf\n", 
+    sym->symInfo.smeri[0], sym->symInfo.smeri[1], sym->symInfo.smeri[2], sym->symInfo.smeri[3] );
+    printf("REPS: %d / %d\n", sym->symInfo.replikacie, sym->aktualRep.poradie);
+    printf("Krok: %d / %d\n", sym->symInfo.maxPocetKrokov, sym->aktualRep.krok);
+    printf("|-------------------------------------------|\n\n");
+
+    if (zobrazenie == SYM_MOD)
+    {
+
+        bool ** prejdene = sym->aktualRep.prejdenePolicka;
+        for (int y = 0; y < svetY(sym); y++)
+        {
+            for (int x = 0; x < svetX(sym); x++)
+            {
+                cords cord;
+                cord.x = x;
+                cord.y = y;
+                if (jePrekazka(sym, cord))
+                {
+                    printf("\u2588\u2588");
+                }
+                else if (sym->aktualRep.aktPozicia.x == x && 
+                sym->aktualRep.aktPozicia.y == y) {
+                    printf("[]");    
+                }
+                else if (jeStred(sym, cord)) 
+                {
+                    printf("/\\");
+                } 
+                else if (prejdene[y][x])
+                {
+                    printf("::");    
+                } 
+                else 
+                {
+                    printf("--");
+                }
+            }
+            printf("\n");
+        }
+    }
+    else 
+    {
+        //SUMAR STRING
+    }
+    printf("\n");
 }

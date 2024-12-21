@@ -4,6 +4,7 @@
 #include "dataStructures.h"
 #include "fileManager.h"
 #include "debugTests.h"
+#include "symulator.h"
 
 symInfo novaSymulaciaDialog() {
     int odpoved;
@@ -126,8 +127,8 @@ int mainMenu() {
 
 void novaSymulacia() {
     symInfo symInfo = novaSymulaciaDialog();
+    
 
-    vypisSymulaciu(symInfo);
     //TODO: vymazat cords
 }
 
@@ -137,8 +138,13 @@ void pripojenie() {
 
 void znovuspustenie() {
     symInfo symInfo = znovuSymulaciaDialog();
+    sym sym;
+    sym.symInfo = symInfo;
+    symuluj(&sym);
 
-    vypisSymulaciu(symInfo);
+    vykresliMapu(&sym, SYM_MOD);
+
+    destroySym(&sym);
     //TODO: vymazat cords
 }
 

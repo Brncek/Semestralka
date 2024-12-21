@@ -24,4 +24,5 @@ CMakeFiles/klient.dir/debugTests.c.o: \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
  /usr/include/x86_64-linux-gnu/bits/floatn-common.h \
  /home/brncek/Desktop/Semestralka/debugTests.h \
- /home/brncek/Desktop/Semestralka/dataStructures.h
+ /home/brncek/Desktop/Semestralka/dataStructures.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h

@@ -201,6 +201,30 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/main.c.s
 .PHONY : main.c.s
 
+symulator.o: symulator.c.o
+.PHONY : symulator.o
+
+# target to build an object file
+symulator.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/symulator.c.o
+.PHONY : symulator.c.o
+
+symulator.i: symulator.c.i
+.PHONY : symulator.i
+
+# target to preprocess a source file
+symulator.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/symulator.c.i
+.PHONY : symulator.c.i
+
+symulator.s: symulator.c.s
+.PHONY : symulator.s
+
+# target to generate assembly for a file
+symulator.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/symulator.c.s
+.PHONY : symulator.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -219,6 +243,9 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... symulator.o"
+	@echo "... symulator.i"
+	@echo "... symulator.s"
 .PHONY : help
 
 

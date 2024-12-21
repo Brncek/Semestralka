@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/klient.dir/fileManager.c.o.d"
   "CMakeFiles/klient.dir/main.c.o"
   "CMakeFiles/klient.dir/main.c.o.d"
+  "CMakeFiles/klient.dir/symulator.c.o"
+  "CMakeFiles/klient.dir/symulator.c.o.d"
   "klient"
   "klient.pdb"
 )
