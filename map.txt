@@ -1,0 +1,6 @@
+MAP: 5 5
+o x o x o
+o o o o o
+o o o o o
+x x o o o
+x o o o x
