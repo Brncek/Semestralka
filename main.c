@@ -56,14 +56,15 @@ symInfo novaSymulaciaDialog() {
     printf("Typ sveta \n");
     printf("1: prazdny\n");
     printf("2: prekazky\n");
+    printf("> ");
     scanf("%d", &odpoved);
     switch (odpoved)
     {
     case 1:
         svet svet;
-        printf("Zadaj sirku a vysku: ");
-        scanf("%d %d", &svet.rozmerySveta[0], &svet.rozmerySveta[1]);
-        if (svet.rozmerySveta[0] <= 0 || svet.rozmerySveta[1] <= 0)
+        printf("Zadaj sirku a vysku (minimum 5): ");
+        scanf("%d %d", &svet.rozmerySveta[1], &svet.rozmerySveta[0]);
+        if (svet.rozmerySveta[0] < 5 || svet.rozmerySveta[1] < 5) 
         {
             printf("Nespravne rozmery\n");
             exit(0);
@@ -117,6 +118,7 @@ int mainMenu() {
     printf("2: pripojenie k simulacii\n");
     printf("3: znovuspustenie symulacie\n");
     printf("4: koniec\n");
+    printf("> ");
     int odpoved;
     scanf("%d", &odpoved);
     return odpoved;
