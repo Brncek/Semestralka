@@ -3,6 +3,7 @@
 
 #include "dataStructures.h"
 #include "fileManager.h"
+#include "debugTests.h"
 
 symInfo novaSymulaciaDialog() {
     int odpoved;
@@ -26,14 +27,12 @@ symInfo novaSymulaciaDialog() {
     }
     symInfo.maxPocetKrokov = odpoved;
 
-    char odpovedCesta[256];
     printf("ulozenie symulacie: ");
-    scanf("%255s", odpovedCesta);
-    symInfo.ulozenie = odpovedCesta;
+    scanf("%255s", symInfo.ulozenie);
 
     printf("Zadavaju sa iba 3 posledna sa dopocita sama\n");
     printf("pravdepodobnosti smerov H D P L: ");
-    double smeri[4];
+    float smeri[4];
     scanf("%f %f %f", &smeri[0], &smeri[1], &smeri[2]);
     smeri[3] = 1 - smeri[0] - smeri[1] - smeri[2];
 
@@ -58,11 +57,10 @@ symInfo novaSymulaciaDialog() {
     printf("1: prazdny\n");
     printf("2: prekazky\n");
     scanf("%d", &odpoved);
-    svet svet;
     switch (odpoved)
     {
     case 1:
-        int rozmery[2];
+        svet svet;
         printf("Zadaj sirku a vysku: ");
         scanf("%d %d", &svet.rozmerySveta[0], &svet.rozmerySveta[1]);
         if (svet.rozmerySveta[0] <= 0 || svet.rozmerySveta[1] <= 0)
@@ -72,6 +70,7 @@ symInfo novaSymulaciaDialog() {
         }
         svet.pocetPrekaziek = 0;
         svet.prekazky = NULL;
+        symInfo.svet = svet;
         break;
     case 2:
         printf("Zadaj mapu: ");
@@ -107,8 +106,9 @@ symInfo znovuSymulaciaDialog() {
     symInfo.replikacie = replikacie;
 
     printf("ulozenie symulacie: ");
-    scanf("%255s", odpovedCesta);
-    symInfo.ulozenie = odpovedCesta;
+    scanf("%255s", symInfo.ulozenie);
+
+    return symInfo;
 }
 
 int mainMenu() {
@@ -116,7 +116,7 @@ int mainMenu() {
     printf("1: nova symulacia\n");
     printf("2: pripojenie k simulacii\n");
     printf("3: znovuspustenie symulacie\n");
-    prinft("4: koniec\n");
+    printf("4: koniec\n");
     int odpoved;
     scanf("%d", &odpoved);
     return odpoved;
@@ -125,6 +125,7 @@ int mainMenu() {
 void novaSymulacia() {
     symInfo symInfo = novaSymulaciaDialog();
 
+    vypisSymulaciu(symInfo);
     //TODO: vymazat cords
 }
 
@@ -135,6 +136,7 @@ void pripojenie() {
 void znovuspustenie() {
     symInfo symInfo = znovuSymulaciaDialog();
 
+    vypisSymulaciu(symInfo);
     //TODO: vymazat cords
 }
 

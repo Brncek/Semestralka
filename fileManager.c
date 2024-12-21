@@ -8,7 +8,7 @@ svet nacitajSvet(const char *nazovSuboru) {
     FILE *subor = fopen(nazovSuboru, "r");
     if (!subor) {
         perror("Nepodarilo sa otvorit subor");
-        exit(1);
+        exit(0);
     }
 
     svet mapa;
@@ -45,6 +45,8 @@ svet nacitajSvet(const char *nazovSuboru) {
     return mapa;
 }
 
+
+//TODO: chyba
 symInfo nacitajSymulaciu(const char *nazovSuboru) {
     FILE *subor = fopen(nazovSuboru, "r");
     if (!subor) {
@@ -62,11 +64,12 @@ symInfo nacitajSymulaciu(const char *nazovSuboru) {
                    &symulacia.smeri[2], &symulacia.smeri[3]);
         } else if (strncmp(riadok, "K:", 2) == 0) {
             sscanf(riadok, "K: %d", &symulacia.maxPocetKrokov);
-        }
+        } 
     }
     fclose(subor);
 
-    symulacia.svet = nacitajSvet(nazovSuboru);
 
+    symulacia.svet = nacitajSvet(nazovSuboru);
+    
     return symulacia;
 }

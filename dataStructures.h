@@ -17,5 +17,6 @@ typedef struct symInfo
     int replikacie;
     double smeri[4];
     int maxPocetKrokov;
-    char* ulozenie;
+    char ulozenie[256];
+
 } symInfo;

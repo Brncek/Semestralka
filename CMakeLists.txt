@@ -6,4 +6,4 @@ project(
 )
 
 add_executable(klient)
-target_sources(klient PRIVATE main.c fileManager.c)
+target_sources(klient PRIVATE main.c fileManager.c debugTests.c)
