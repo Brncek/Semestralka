@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
+#include <pthread.h>
 
 #include "symulator.h"
 
@@ -107,7 +108,7 @@ void posun(sym* sym) {
 
 //POZOR symulacia ostava alokovana
 void symuluj(sym* sym) {
-    //ZAMKNI
+    pthread_mutex_lock(&(sym->symMutex));
     
     for (int y = 0; y < svetY(sym); y++)
     {
@@ -125,7 +126,6 @@ void symuluj(sym* sym) {
     srand(time(NULL));
     sym->aktualRep.poradie = 1;
     
-    //TODO: ODOMKNI
 
     while (sym->aktualRep.poradie <= sym->symInfo.replikacie)
     {
@@ -135,7 +135,6 @@ void symuluj(sym* sym) {
         {
             for (int y = 0; y < svetY(sym); y++)
             {
-                //TODO: zamkni
                 for (int x = 0; x < svetX(sym); x++)
                 {
                     for (int y = 0; y < svetY(sym); y++)
@@ -161,13 +160,11 @@ void symuluj(sym* sym) {
                 sym->aktualRep.aktPozicia.y = y; 
                 sym->aktualRep.krok = 0;
                 sym->aktualRep.prejdenePolicka[y][x] = true;
-                //TODO: ODOMKNI
 
                 bool pokracuj = true;
 
                 while (pokracuj)
                 {
-                    //TODO: ZAMKNI
                     posun(sym);
 
                     if (jeStred(sym,sym->aktualRep.aktPozicia)) 
@@ -182,14 +179,21 @@ void symuluj(sym* sym) {
                         sym->aktualRep.poctyDlzok[y][x] = 0;    
                         pokracuj = false;
                     }   
-                    //TODO: ODOMKNI
+                    pthread_mutex_unlock(&(sym->symMutex));
+                    pthread_cond_signal(&(sym->posunCond));
                     sleep(1); 
+                    pthread_mutex_lock(&(sym->symMutex));
+
+                    if (sym->koniec) {
+                        pthread_mutex_unlock(&(sym->symMutex));
+                        pthread_cond_signal(&(sym->posunCond));
+                        return;
+                    }
                 }
             }
         }
 
         //PRIDANIE VYSLEDKOV
-        //TODO: ZAMKNI
         sym->aktualRep.poradie++;
         for (int x = 0; x < svetX(sym); x++)
         {
@@ -199,8 +203,10 @@ void symuluj(sym* sym) {
                 sym->poctyDosSum[y][x] += sym->aktualRep.poctyDos[y][x];
             }
         }
-        //TODO: ODOMKNI
     }
+    
+    pthread_mutex_unlock(&(sym->symMutex));
+    pthread_cond_signal(&(sym->posunCond));
 }
 
 void vykresliMapu(sym * sym, zobrazenie zobrazenie) {
@@ -254,7 +260,8 @@ void vykresliMapu(sym * sym, zobrazenie zobrazenie) {
     }
     else 
     {
-        //SUMAR STRING
+        printf("TODO\n");
+        //TODO:: SUMAR STRING
     }
     printf("\n");
 }

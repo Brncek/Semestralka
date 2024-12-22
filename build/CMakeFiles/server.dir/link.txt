@@ -1,0 +1,1 @@
+/usr/bin/cc CMakeFiles/server.dir/server.c.o CMakeFiles/server.dir/fileManager.c.o CMakeFiles/server.dir/symulator.c.o CMakeFiles/server.dir/serverIPC.c.o -o server 

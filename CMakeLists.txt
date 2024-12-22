@@ -7,3 +7,5 @@ project(
 
 add_executable(klient)
 target_sources(klient PRIVATE main.c fileManager.c debugTests.c symulator.c klientIPC.c)
+add_executable(server)
+target_sources(server PRIVATE server.c fileManager.c symulator.c serverIPC.c)

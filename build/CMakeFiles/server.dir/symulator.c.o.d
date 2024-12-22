@@ -1,4 +1,4 @@
-CMakeFiles/klient.dir/symulator.c.o: \
+CMakeFiles/server.dir/symulator.c.o: \
  /home/brncek/Desktop/Semestralka/symulator.c /usr/include/stdc-predef.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \

@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "filemanager.h": "c"
+        "filemanager.h": "c",
+        "symulator.h": "c",
+        "klientipc.h": "c",
+        "string.h": "c"
     }
 }

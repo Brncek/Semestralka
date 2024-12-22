@@ -1,3 +1,4 @@
 /home/brncek/Desktop/Semestralka/build/CMakeFiles/klient.dir
+/home/brncek/Desktop/Semestralka/build/CMakeFiles/server.dir
 /home/brncek/Desktop/Semestralka/build/CMakeFiles/edit_cache.dir
 /home/brncek/Desktop/Semestralka/build/CMakeFiles/rebuild_cache.dir

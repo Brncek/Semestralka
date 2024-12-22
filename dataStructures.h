@@ -1,6 +1,7 @@
 #pragma once
 #include <stdbool.h>
 #include <pthread.h>
+#include <stdatomic.h>
 
 typedef enum zobrazenie {
     SYM_MOD,
@@ -49,12 +50,13 @@ typedef struct rep
 typedef struct sym {
     //synchronizacia
     pthread_mutex_t  symMutex;
-    pthread_cond_t  posun;
+    pthread_cond_t  posunCond;
 
     symInfo symInfo;
     rep aktualRep;
     int poctyDlzokSum[150][150];
     int poctyDosSum[150][150];
+    bool koniec;
 } sym;
 
 typedef struct server {
@@ -63,6 +65,13 @@ typedef struct server {
     //TODO: synchronizacia
     pthread_mutex_t serverMutex;
     pthread_cond_t  koniec;
+    bool koniec_info;
     zobrazenie zob;
     int pocetKlientov;
 }server;
+
+typedef struct klientData {
+    atomic_bool * koniec;
+    server * serverData;
+    char* popisovac; 
+} klientData;

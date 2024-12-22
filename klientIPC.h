@@ -1,5 +1,5 @@
 #pragma once
 #include "dataStructures.h"
 
-char* spustServer(symInfo symInfo);
+void spustServer(char *shm_name, symInfo symInfo);
 void pripojNaServer(char * popisovac);

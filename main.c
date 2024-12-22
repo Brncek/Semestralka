@@ -126,8 +126,9 @@ int mainMenu() {
 }
 
 void novaSymulacia() {
+    char popisovac[7];
     symInfo symInfo = novaSymulaciaDialog();
-    char* popisovac = spustServer(symInfo);
+    spustServer(popisovac, symInfo);
     pripojNaServer(popisovac);
 }
 
@@ -139,8 +140,9 @@ void pripojenie() {
 }
 
 void znovuspustenie() {
+    char popisovac[7];
     symInfo symInfo = znovuSymulaciaDialog();
-    char* popisovac = spustServer(symInfo);
+    spustServer(popisovac, symInfo);
     pripojNaServer(popisovac);
 }
 

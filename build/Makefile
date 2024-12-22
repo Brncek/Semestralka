@@ -129,6 +129,19 @@ klient/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/build
 .PHONY : klient/fast
 
+#=============================================================================
+# Target rules for targets named server
+
+# Build rule for target.
+server: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 server
+.PHONY : server
+
+# fast build rule for target.
+server/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
+.PHONY : server/fast
+
 debugTests.o: debugTests.c.o
 .PHONY : debugTests.o
 
@@ -159,6 +172,7 @@ fileManager.o: fileManager.c.o
 # target to build an object file
 fileManager.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/fileManager.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/fileManager.c.o
 .PHONY : fileManager.c.o
 
 fileManager.i: fileManager.c.i
@@ -167,6 +181,7 @@ fileManager.i: fileManager.c.i
 # target to preprocess a source file
 fileManager.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/fileManager.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/fileManager.c.i
 .PHONY : fileManager.c.i
 
 fileManager.s: fileManager.c.s
@@ -175,6 +190,7 @@ fileManager.s: fileManager.c.s
 # target to generate assembly for a file
 fileManager.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/fileManager.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/fileManager.c.s
 .PHONY : fileManager.c.s
 
 klientIPC.o: klientIPC.c.o
@@ -225,12 +241,61 @@ main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/main.c.s
 .PHONY : main.c.s
 
+server.o: server.c.o
+.PHONY : server.o
+
+# target to build an object file
+server.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server.c.o
+.PHONY : server.c.o
+
+server.i: server.c.i
+.PHONY : server.i
+
+# target to preprocess a source file
+server.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server.c.i
+.PHONY : server.c.i
+
+server.s: server.c.s
+.PHONY : server.s
+
+# target to generate assembly for a file
+server.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/server.c.s
+.PHONY : server.c.s
+
+serverIPC.o: serverIPC.c.o
+.PHONY : serverIPC.o
+
+# target to build an object file
+serverIPC.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/serverIPC.c.o
+.PHONY : serverIPC.c.o
+
+serverIPC.i: serverIPC.c.i
+.PHONY : serverIPC.i
+
+# target to preprocess a source file
+serverIPC.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/serverIPC.c.i
+.PHONY : serverIPC.c.i
+
+serverIPC.s: serverIPC.c.s
+.PHONY : serverIPC.s
+
+# target to generate assembly for a file
+serverIPC.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/serverIPC.c.s
+.PHONY : serverIPC.c.s
+
 symulator.o: symulator.c.o
 .PHONY : symulator.o
 
 # target to build an object file
 symulator.c.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/symulator.c.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/symulator.c.o
 .PHONY : symulator.c.o
 
 symulator.i: symulator.c.i
@@ -239,6 +304,7 @@ symulator.i: symulator.c.i
 # target to preprocess a source file
 symulator.c.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/symulator.c.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/symulator.c.i
 .PHONY : symulator.c.i
 
 symulator.s: symulator.c.s
@@ -247,6 +313,7 @@ symulator.s: symulator.c.s
 # target to generate assembly for a file
 symulator.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/symulator.c.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/symulator.c.s
 .PHONY : symulator.c.s
 
 # Help Target
@@ -258,6 +325,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... klient"
+	@echo "... server"
 	@echo "... debugTests.o"
 	@echo "... debugTests.i"
 	@echo "... debugTests.s"
@@ -270,6 +338,12 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... server.o"
+	@echo "... server.i"
+	@echo "... server.s"
+	@echo "... serverIPC.o"
+	@echo "... serverIPC.i"
+	@echo "... serverIPC.s"
 	@echo "... symulator.o"
 	@echo "... symulator.i"
 	@echo "... symulator.s"
