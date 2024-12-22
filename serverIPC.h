@@ -1,4 +1,4 @@
 #pragma once
 #include "dataStructures.h"
 
-sym spust(char* popisovac);
+sym spust(const char* popisovac);

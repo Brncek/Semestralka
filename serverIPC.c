@@ -11,7 +11,7 @@
 #include "symulator.h"
 #include "serverIPC.h"
 
-sym spust(char* popisovac) {
+sym spust(const char* popisovac) {
     int shm_fd;
     server* serverSHM;
 
@@ -45,6 +45,11 @@ sym spust(char* popisovac) {
     //zaistenie ze klient sa stihol odpojit
     sleep(5);
     //uzavretie pamate
+
+    pthread_cond_destroy(&serverSHM->sym.posunCond);
+    pthread_cond_destroy(&serverSHM->koniec);
+    pthread_mutex_destroy(&serverSHM->serverMutex);
+    pthread_mutex_destroy(&serverSHM->sym.symMutex);
     munmap(serverSHM, sizeof(server));
     close(shm_fd);
     shm_unlink(popisovac);

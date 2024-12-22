@@ -104,7 +104,9 @@ void* vystupFun(void * arg) {
 
         if(!atomic_load(data->koniec)) {
             pthread_mutex_lock(& data->serverData->serverMutex);
-            vykresliMapu(& data->serverData->sym, data->serverData->zob);
+            pthread_mutex_lock(data->internalMutex);
+            vykresliMapu(& data->serverData->sym, data->serverData->zob, data->sumZob);
+            pthread_mutex_unlock(data->internalMutex);
             pthread_mutex_unlock(& data->serverData->serverMutex);
         }
         
@@ -115,11 +117,11 @@ void* vystupFun(void * arg) {
         printf("\nPrikazy:\n");  
         printf("m -> zmenenie modu\n");
         printf("o -> odchod\n");
-        printf("u -> ukoncenie symulacie\n"); 
+        printf("u -> ukoncenie symulacie\n");
+        printf("d -> zmenenie zobrazenych udajov (iba v SUM mode)\n");
         printf("> ");
     }
     
-    //TODO: dorobit
     return NULL;
 }
 
@@ -155,6 +157,19 @@ void* vstupFun(void * arg) {
                 data->serverData->sym.koniec = true;
                 pthread_mutex_unlock(& data->serverData->sym.symMutex);
             }
+        } else if (odpoved == 'd') {
+            if(!atomic_load(data->koniec)) {
+                pthread_mutex_lock(data->internalMutex);
+                if (data->sumZob== KROKY)
+                {
+                    data->sumZob = PRAVD;
+                } 
+                else 
+                {
+                    data->sumZob = KROKY;
+                }
+                pthread_mutex_unlock(data->internalMutex);
+            }
         }
     }
     
@@ -187,6 +202,11 @@ void pripojNaServer(char * popisovac) {
     klientData.koniec = &koniec;
     klientData.serverData = serverSHM;
     klientData.popisovac = popisovac;
+    klientData.sumZob = KROKY;
+
+    pthread_mutex_t internalMutex;
+    pthread_mutex_init(&internalMutex, NULL);
+    klientData.internalMutex = &internalMutex;
 
     pthread_mutex_lock(&serverSHM->serverMutex);
 
@@ -217,6 +237,7 @@ void pripojNaServer(char * popisovac) {
     printf("Pre uplne ukoncenie stlacte enter\n");
 
     pthread_join(vstup, NULL); 
+    pthread_mutex_destroy(&internalMutex);
 
     //odpojenie
     munmap(serverSHM, sizeof(server));

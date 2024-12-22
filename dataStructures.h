@@ -48,7 +48,6 @@ typedef struct rep
 
 
 typedef struct sym {
-    //synchronizacia
     pthread_mutex_t  symMutex;
     pthread_cond_t  posunCond;
 
@@ -62,7 +61,6 @@ typedef struct sym {
 typedef struct server {
     sym sym;
     
-    //TODO: synchronizacia
     pthread_mutex_t serverMutex;
     pthread_cond_t  koniec;
     bool koniec_info;
@@ -70,8 +68,15 @@ typedef struct server {
     int pocetKlientov;
 }server;
 
+typedef enum sumZob {
+    PRAVD,
+    KROKY
+} sumZob;
+
 typedef struct klientData {
     atomic_bool * koniec;
     server * serverData;
     char* popisovac; 
+    sumZob sumZob;
+    pthread_mutex_t * internalMutex;
 } klientData;

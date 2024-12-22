@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "serverIPC.h"
 #include "dataStructures.h"
 

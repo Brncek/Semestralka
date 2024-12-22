@@ -209,17 +209,24 @@ void symuluj(sym* sym) {
     pthread_cond_signal(&(sym->posunCond));
 }
 
-void vykresliMapu(sym * sym, zobrazenie zobrazenie) {
+void vykresliMapu(sym * sym, zobrazenie zobrazenie, sumZob sumZob) {
     printf("\n");
     if (zobrazenie == SYM_MOD)
     {
         printf("MOD: SYM\n");
     } else {
-        printf("MOD: SUM\n");
+        if (sumZob == KROKY)
+        {
+            printf("MOD: SUM-PRIEMERNE KROKY\n");
+        } 
+        else
+        {
+            printf("MOD: SUM-PRAVDEPODOBNOST DOSIAHNUTIA\n");
+        }
     }
     
     printf("|-------------------------------------------|\n");
-    printf("SMERY: \nHORE: %lf \nDOLE: %lf \nVPRAVO: %lf \nVLAVO: %lf\n", 
+    printf("SMERY: HORE: %.2lf DOLE: %.2lf VPRAVO: %.2lf VLAVO: %.2lf\n", 
     sym->symInfo.smeri[0], sym->symInfo.smeri[1], sym->symInfo.smeri[2], sym->symInfo.smeri[3] );
     printf("REPS: %d / %d\n", sym->symInfo.replikacie, sym->aktualRep.poradie);
     printf("Krok: %d / %d\n", sym->symInfo.maxPocetKrokov, sym->aktualRep.krok);
