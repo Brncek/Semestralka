@@ -7,6 +7,6 @@ int main(int argc, char const *argv[])
 {
     printf("Server spusteni\n");
     sym symData = spust(argv[1]);
-    ulozSim(&symData);
+    ulozSym(&symData);
     return 0;
 }

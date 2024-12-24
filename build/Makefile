@@ -142,30 +142,6 @@ server/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/server.dir/build.make CMakeFiles/server.dir/build
 .PHONY : server/fast
 
-debugTests.o: debugTests.c.o
-.PHONY : debugTests.o
-
-# target to build an object file
-debugTests.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/debugTests.c.o
-.PHONY : debugTests.c.o
-
-debugTests.i: debugTests.c.i
-.PHONY : debugTests.i
-
-# target to preprocess a source file
-debugTests.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/debugTests.c.i
-.PHONY : debugTests.c.i
-
-debugTests.s: debugTests.c.s
-.PHONY : debugTests.s
-
-# target to generate assembly for a file
-debugTests.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/klient.dir/build.make CMakeFiles/klient.dir/debugTests.c.s
-.PHONY : debugTests.c.s
-
 fileManager.o: fileManager.c.o
 .PHONY : fileManager.o
 
@@ -326,9 +302,6 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... klient"
 	@echo "... server"
-	@echo "... debugTests.o"
-	@echo "... debugTests.i"
-	@echo "... debugTests.s"
 	@echo "... fileManager.o"
 	@echo "... fileManager.i"
 	@echo "... fileManager.s"

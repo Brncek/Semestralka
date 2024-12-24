@@ -5,7 +5,7 @@
 #include "fileManager.h"
 #include "symulator.h"
 
-void ulozSim(sym * sym) {
+void ulozSym(sym * sym) {
     if (strcmp(sym->symInfo.ulozenie,"n") == 0)
     {
         return;

@@ -64,6 +64,5 @@ CMakeFiles/klient.dir/main.c.o: /home/brncek/Desktop/Semestralka/main.c \
  /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdatomic.h \
  /home/brncek/Desktop/Semestralka/fileManager.h \
- /home/brncek/Desktop/Semestralka/debugTests.h \
  /home/brncek/Desktop/Semestralka/symulator.h \
  /home/brncek/Desktop/Semestralka/klientIPC.h

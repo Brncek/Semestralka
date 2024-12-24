@@ -8,7 +8,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/brncek/Desktop/Semestralka/debugTests.c" "CMakeFiles/klient.dir/debugTests.c.o" "gcc" "CMakeFiles/klient.dir/debugTests.c.o.d"
   "/home/brncek/Desktop/Semestralka/fileManager.c" "CMakeFiles/klient.dir/fileManager.c.o" "gcc" "CMakeFiles/klient.dir/fileManager.c.o.d"
   "/home/brncek/Desktop/Semestralka/klientIPC.c" "CMakeFiles/klient.dir/klientIPC.c.o" "gcc" "CMakeFiles/klient.dir/klientIPC.c.o.d"
   "/home/brncek/Desktop/Semestralka/main.c" "CMakeFiles/klient.dir/main.c.o" "gcc" "CMakeFiles/klient.dir/main.c.o.d"

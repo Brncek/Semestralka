@@ -3,7 +3,6 @@
 
 #include "dataStructures.h"
 #include "fileManager.h"
-#include "debugTests.h"
 #include "symulator.h"
 #include "klientIPC.h"
 

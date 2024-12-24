@@ -1,6 +1,4 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/klient.dir/debugTests.c.o"
-  "CMakeFiles/klient.dir/debugTests.c.o.d"
   "CMakeFiles/klient.dir/fileManager.c.o"
   "CMakeFiles/klient.dir/fileManager.c.o.d"
   "CMakeFiles/klient.dir/klientIPC.c.o"
