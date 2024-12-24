@@ -18,14 +18,12 @@ sym spust(const char* popisovac) {
     //PRIPOJENIE
     shm_fd = shm_open(popisovac, O_RDWR, 0666);
     if (shm_fd == -1) {
-        perror("shm_open");
         exit(EXIT_FAILURE);
     }
 
     //MAPOVANIE
     serverSHM = mmap(NULL, sizeof(server), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
     if (serverSHM == MAP_FAILED) {
-        perror("mmap");
         close(shm_fd);
         exit(EXIT_FAILURE);
     }

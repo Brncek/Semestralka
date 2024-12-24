@@ -64,9 +64,10 @@ symInfo novaSymulaciaDialog() {
     {
     case 1:
         svet svet;
-        printf("Zadaj sirku a vysku (minimum 5): ");
+        printf("Zadaj sirku a vysku (minimum 5 max 150): ");
         scanf("%d %d", &svet.rozmerySveta[1], &svet.rozmerySveta[0]);
-        if (svet.rozmerySveta[0] < 5 || svet.rozmerySveta[1] < 5) 
+        if (svet.rozmerySveta[0] < 5 || svet.rozmerySveta[1] < 5 
+        || svet.rozmerySveta[0] > 150 || svet.rozmerySveta[1] > 150 ) 
         {
             printf("Nespravne rozmery\n");
             exit(0);

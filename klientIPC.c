@@ -48,20 +48,17 @@ void spustServer(char *shm_name, symInfo symInfo) {
     //TVORBA PAMATE
     shm_fd = shm_open(shm_name, O_CREAT | O_RDWR, 0666);
     if (shm_fd == -1) {
-        perror("shm_open");
         exit(EXIT_FAILURE);
     }
 
     //NASTAVENIE VELKOSTI
     if (ftruncate(shm_fd, sizeof(server)) == -1) {
-        perror("ftruncate");
         exit(EXIT_FAILURE);
     }
 
     //NAMAPOVANIE
     serverSHM = mmap(NULL, sizeof(server), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
     if (serverSHM == MAP_FAILED) {
-        perror("mmap");
         close(shm_fd);
         exit(EXIT_FAILURE);
     }
@@ -81,12 +78,10 @@ void spustServer(char *shm_name, symInfo symInfo) {
     pid_t pid = fork(); 
 
     if (pid < 0) {
-        perror("fork");
         exit(EXIT_FAILURE);
     }
     if (pid == 0) {
         execl("./server", "./server", shm_name, (char *)NULL);
-        perror("execl");
         exit(EXIT_FAILURE);
     }
 }
@@ -98,10 +93,8 @@ void* vystupFun(void * arg) {
     {
         pthread_mutex_lock(& data->serverData->sym.symMutex);
         pthread_cond_wait(& data->serverData->sym.posunCond, & data->serverData->sym.symMutex);
-        //CLEAR TERMINAL AND WRITE
         
-        //TODO:REMOVE
-        //system("clear"); 
+        system("clear"); 
         printf("\nPopisovatel: %s\n", data->popisovac);
 
         if(!atomic_load(data->koniec)) {
@@ -114,7 +107,6 @@ void* vystupFun(void * arg) {
         
 
         pthread_mutex_unlock(& data->serverData->sym.symMutex);
-        pthread_cond_signal(& data->serverData->sym.posunCond);
 
         printf("\nPrikazy:\n");  
         printf("m -> zmenenie modu\n");
@@ -138,7 +130,7 @@ void* vstupFun(void * arg) {
 
         if (odpoved == 'o') {
             *data->koniec = true;
-            pthread_cond_signal(&data->serverData->koniec);
+            pthread_cond_broadcast(&data->serverData->koniec);
         } else if (odpoved == 'm') {
             if(!atomic_load(data->koniec)) {
                 pthread_mutex_lock(& data->serverData->serverMutex);
@@ -185,14 +177,12 @@ void pripojNaServer(char * popisovac) {
     //PRIPOJENIE
     shm_fd = shm_open(popisovac, O_RDWR, 0666);
     if (shm_fd == -1) {
-        perror("shm_open");
         exit(EXIT_FAILURE);
     }
 
     //MAPOVANIE
     serverSHM = mmap(NULL, sizeof(server), PROT_READ | PROT_WRITE, MAP_SHARED, shm_fd, 0);
     if (serverSHM == MAP_FAILED) {
-        perror("mmap");
         close(shm_fd);
         exit(EXIT_FAILURE);
     }
@@ -224,21 +214,18 @@ void pripojNaServer(char * popisovac) {
     while (!serverSHM->koniec_info && !atomic_load(&koniec))
     {
         pthread_cond_wait(&serverSHM->koniec, &serverSHM->serverMutex);
-        printf("presiel \n");
     }
-    printf("presiel waitom\n");
 
     serverSHM->pocetKlientov--;
     pthread_mutex_unlock(&serverSHM->serverMutex);
 
     koniec = true;
-    pthread_cond_signal(&serverSHM->sym.posunCond);
+    pthread_cond_broadcast(&serverSHM->sym.posunCond);
     pthread_join(vystup, NULL);
 
-    pthread_cond_signal(&(serverSHM->koniec));
+    pthread_cond_broadcast(&(serverSHM->koniec));
     
-    //TODO:REMOVE
-    //system("clear"); 
+    system("clear"); 
     printf("Pre uplne ukoncenie stlacte enter\n");
 
     pthread_join(vstup, NULL); 

@@ -22,7 +22,7 @@ double pravStred(sym * sym, cords cord) {
         return 0;
     }
 
-    return (double)sym->poctyDosSum[cord.y][cord.x] / sym->aktualRep.poradie * 100; 
+    return (double)sym->poctyDosSum[cord.y][cord.x] / (sym->aktualRep.poradie - 1) * 100; 
 }
 
 int priemKrokov(sym * sym, cords cord) {
@@ -199,13 +199,13 @@ void symuluj(sym* sym) {
                         pokracuj = false;
                     }   
                     pthread_mutex_unlock(&(sym->symMutex));
-                    pthread_cond_signal(&(sym->posunCond));
+                    pthread_cond_broadcast(&(sym->posunCond));
                     sleep(1); 
                     pthread_mutex_lock(&(sym->symMutex));
 
                     if (sym->koniec) {
                         pthread_mutex_unlock(&(sym->symMutex));
-                        pthread_cond_signal(&(sym->posunCond));
+                        pthread_cond_broadcast(&(sym->posunCond));
                         return;
                     }
                 }
@@ -226,7 +226,7 @@ void symuluj(sym* sym) {
 
     sym->aktualRep.poradie--;
     pthread_mutex_unlock(&(sym->symMutex));
-    pthread_cond_signal(&(sym->posunCond));
+    pthread_cond_broadcast(&(sym->posunCond));
 }
 
 void vykresliMapu(sym * sym, zobrazenie zobrazenie, sumZob sumZob) {

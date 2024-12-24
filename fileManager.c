@@ -6,6 +6,12 @@
 #include "symulator.h"
 
 void ulozSim(sym * sym) {
+    if (strcmp(sym->symInfo.ulozenie,"n") == 0)
+    {
+        return;
+    }
+    
+
     FILE * ulozisko = fopen(sym->symInfo.ulozenie, "w");
     if (ulozisko == NULL) {
         printf("Ulozenie error");
@@ -65,7 +71,6 @@ void ulozSim(sym * sym) {
 svet nacitajSvet(const char *nazovSuboru) {
     FILE *subor = fopen(nazovSuboru, "r");
     if (!subor) {
-        perror("Nepodarilo sa otvorit subor");
         exit(0);
     }
 
@@ -104,7 +109,6 @@ svet nacitajSvet(const char *nazovSuboru) {
 symInfo nacitajSymulaciu(const char *nazovSuboru) {
     FILE *subor = fopen(nazovSuboru, "r");
     if (!subor) {
-        perror("Nepodarilo sa otvoriť subor");
         exit(1);
     }
 
@@ -121,7 +125,6 @@ symInfo nacitajSymulaciu(const char *nazovSuboru) {
         } 
     }
     fclose(subor);
-
 
     symulacia.svet = nacitajSvet(nazovSuboru);
     
