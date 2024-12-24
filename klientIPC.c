@@ -99,7 +99,9 @@ void* vystupFun(void * arg) {
         pthread_mutex_lock(& data->serverData->sym.symMutex);
         pthread_cond_wait(& data->serverData->sym.posunCond, & data->serverData->sym.symMutex);
         //CLEAR TERMINAL AND WRITE
-        system("clear"); 
+        
+        //TODO:REMOVE
+        //system("clear"); 
         printf("\nPopisovatel: %s\n", data->popisovac);
 
         if(!atomic_load(data->koniec)) {
@@ -222,7 +224,9 @@ void pripojNaServer(char * popisovac) {
     while (!serverSHM->koniec_info && !atomic_load(&koniec))
     {
         pthread_cond_wait(&serverSHM->koniec, &serverSHM->serverMutex);
+        printf("presiel \n");
     }
+    printf("presiel waitom\n");
 
     serverSHM->pocetKlientov--;
     pthread_mutex_unlock(&serverSHM->serverMutex);
@@ -233,7 +237,8 @@ void pripojNaServer(char * popisovac) {
 
     pthread_cond_signal(&(serverSHM->koniec));
     
-    system("clear"); 
+    //TODO:REMOVE
+    //system("clear"); 
     printf("Pre uplne ukoncenie stlacte enter\n");
 
     pthread_join(vstup, NULL); 

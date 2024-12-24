@@ -3,6 +3,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <pthread.h>
+#include <unistd.h>
 
 #include "symulator.h"
 
@@ -13,6 +14,24 @@ int svetX(sym* sym) {
 
 int svetY(sym* sym) {
     return sym->symInfo.svet.rozmerySveta[0];
+}
+
+double pravStred(sym * sym, cords cord) {
+    if (sym->poctyDosSum[cord.y][cord.x] == 0)
+    {
+        return 0;
+    }
+
+    return (double)sym->poctyDosSum[cord.y][cord.x] / sym->aktualRep.poradie * 100; 
+}
+
+int priemKrokov(sym * sym, cords cord) {
+    if (sym->poctyDlzokSum[cord.y][cord.x] == 0)
+    {
+        return 0;
+    }
+
+    return (int)((double)sym->poctyDlzokSum[cord.y][cord.x] / sym->poctyDosSum[cord.y][cord.x]); 
 }
 
 bool jePrekazka(sym * sym, cords cord) {
@@ -204,7 +223,8 @@ void symuluj(sym* sym) {
             }
         }
     }
-    
+
+    sym->aktualRep.poradie--;
     pthread_mutex_unlock(&(sym->symMutex));
     pthread_cond_signal(&(sym->posunCond));
 }
@@ -267,8 +287,36 @@ void vykresliMapu(sym * sym, zobrazenie zobrazenie, sumZob sumZob) {
     }
     else 
     {
-        printf("TODO\n");
-        //TODO:: SUMAR STRING
+        if (sumZob == KROKY)
+        {
+            for (int y = 0; y < svetY(sym); y++)
+            {
+                for (int x = 0; x < svetX(sym); x++)
+                {
+                    cords cord;
+                    cord.x = x;
+                    cord.y = y;
+
+                    printf("[%d]", priemKrokov(sym, cord));
+                }
+                printf("\n");        
+            }
+        } 
+        else
+        {
+            for (int y = 0; y < svetY(sym); y++)
+            {
+                for (int x = 0; x < svetX(sym); x++)
+                {
+                    cords cord;
+                    cord.x = x;
+                    cord.y = y;
+
+                    printf("[%.2lf]", pravStred(sym, cord));
+                }
+                printf("\n");        
+            }
+        }
     }
     printf("\n");
 }

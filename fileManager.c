@@ -3,6 +3,64 @@
 #include <string.h>
 
 #include "fileManager.h"
+#include "symulator.h"
+
+void ulozSim(sym * sym) {
+    FILE * ulozisko = fopen(sym->symInfo.ulozenie, "w");
+    if (ulozisko == NULL) {
+        printf("Ulozenie error");
+        return;
+    }
+
+    fprintf(ulozisko, "SMR: %.2lf %.2lf %.2lf %.2lf\n", sym->symInfo.smeri[0],
+    sym->symInfo.smeri[1], sym->symInfo.smeri[2], sym->symInfo.smeri[3]);
+
+    fprintf(ulozisko, "K: %d\n", sym->symInfo.maxPocetKrokov);
+
+    fprintf(ulozisko, "REP: %d\n\n", sym->symInfo.replikacie);
+
+    fprintf(ulozisko,"OUT:\n");
+
+    for (int y = 0; y < svetY(sym); y++)
+    {
+        for (int x = 0; x < svetX(sym); x++)
+        {
+            cords cord;
+            cord.x = x;
+            cord.y = y;
+
+            fprintf(ulozisko,"[%.2lf  %d]", pravStred(sym, cord), priemKrokov(sym, cord));
+        }
+        fprintf(ulozisko,"\n");        
+    }
+
+
+    fprintf(ulozisko,"\n");
+    fprintf(ulozisko,"MAP: %d %d\n", sym->symInfo.svet.rozmerySveta[0], 
+    sym->symInfo.svet.rozmerySveta[1]);
+    for (int y = 0; y < svetY(sym); y++)
+    {
+        for (int x = 0; x < svetX(sym); x++)
+        {
+            cords cord;
+            cord.x = x;
+            cord.y = y;
+
+            if (jePrekazka(sym, cord))
+            {
+                fprintf(ulozisko,"x ");
+            } 
+            else
+            {
+                fprintf(ulozisko,"o ");
+            }
+        }
+        fprintf(ulozisko,"\n");        
+    }
+    
+
+    fclose(ulozisko);
+}
 
 svet nacitajSvet(const char *nazovSuboru) {
     FILE *subor = fopen(nazovSuboru, "r");
@@ -43,7 +101,6 @@ svet nacitajSvet(const char *nazovSuboru) {
 }
 
 
-//TODO: chyba
 symInfo nacitajSymulaciu(const char *nazovSuboru) {
     FILE *subor = fopen(nazovSuboru, "r");
     if (!subor) {

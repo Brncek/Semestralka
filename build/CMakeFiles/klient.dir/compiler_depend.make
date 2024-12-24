@@ -135,7 +135,8 @@ CMakeFiles/klient.dir/fileManager.c.o: ../fileManager.c \
   /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h \
-  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdatomic.h
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdatomic.h \
+  ../symulator.h
 
 CMakeFiles/klient.dir/klientIPC.c.o: ../klientIPC.c \
   /usr/include/stdc-predef.h \
@@ -378,14 +379,19 @@ CMakeFiles/klient.dir/symulator.c.o: ../symulator.c \
   /usr/include/x86_64-linux-gnu/bits/types/struct___jmp_buf_tag.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h \
   /usr/include/x86_64-linux-gnu/bits/pthread_stack_min.h \
+  /usr/include/unistd.h \
+  /usr/include/x86_64-linux-gnu/bits/posix_opt.h \
+  /usr/include/x86_64-linux-gnu/bits/environments.h \
+  /usr/include/x86_64-linux-gnu/bits/confname.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_posix.h \
+  /usr/include/x86_64-linux-gnu/bits/getopt_core.h \
+  /usr/include/x86_64-linux-gnu/bits/unistd_ext.h \
   ../symulator.h \
   ../dataStructures.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdatomic.h
 
 
 ../main.c:
-
-../symulator.h:
 
 ../klientIPC.h:
 
@@ -414,6 +420,8 @@ CMakeFiles/klient.dir/symulator.c.o: ../symulator.c \
 /usr/include/x86_64-linux-gnu/bits/fcntl.h:
 
 ../klientIPC.c:
+
+../symulator.h:
 
 /usr/include/x86_64-linux-gnu/bits/mman.h:
 

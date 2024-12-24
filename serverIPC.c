@@ -46,6 +46,8 @@ sym spust(const char* popisovac) {
     sleep(5);
     //uzavretie pamate
 
+    sym symData = serverSHM->sym;
+
     pthread_cond_destroy(&serverSHM->sym.posunCond);
     pthread_cond_destroy(&serverSHM->koniec);
     pthread_mutex_destroy(&serverSHM->serverMutex);
@@ -53,8 +55,7 @@ sym spust(const char* popisovac) {
     munmap(serverSHM, sizeof(server));
     close(shm_fd);
     shm_unlink(popisovac);
-
-    sym symData = serverSHM->sym;
+    
     return symData;
 }
 
